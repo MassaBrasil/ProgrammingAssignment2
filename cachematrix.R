@@ -1,3 +1,10 @@
+<<<<<<< HEAD
+## makeCacheMatrix : 
+## This function creates a special "matrix" object that can cache its inverse.
+##
+
+##  makeCacheMatrix is a function that receives a variable of clas Matrix
+=======
 ## Put comments here that give an overall description of what your
 ## functions do
 ## test masa , TEST 2ND TIME 
@@ -5,49 +12,92 @@
 ## 
 ## makeCacheMatrix is function to create the cache of a matrix
 ## 
+>>>>>>> origin/master
 
-makeCacheMatrix <- function(x = matrix()) {
-  ## flag to indicate if it is inverse or not (NULL)
-  m <- NULL
-  set <- function(y) {
-    x <<- y
-    m <<- NULL
-  }
-  get <- function() x
-  setmean <- function(mean) m <<- mean
-  getmean <- function() m
-  list(set = set, get = get, setmean = setmean, getmean = getmean)
+makeCacheMatrix <- function(x = matrix() ) {
+
+  ## inv is the inverse matrix, initially is set the cache inv to NULL
   
+  inv <- NULL
+  ## set receives function variable (a matrix) and caches matrix into  mt
+  ## also caches NULL into inverse matrix inv
+  set <- function( matrix ) {
+    mt <<- matrix
+    inv <<- NULL
+  }
+  
+  ## get returns cached matrix mt
+  get <- function() {
+    
+    mt
+  }
+  
+  ## set in the cache inv (invese matrix) the inverse matrix received
+  setInverso <- function(inverso ) {
+    inv <<- inverso 
+  }
+  
+  ## get returns the cached inverse matrix inv
+  getInverso <- function() {
+    inv
+  }
+  
+  ## for listing the methods of function makeCacheMatrix...
+  
+  list(set = set, get = get,
+       setInverso = setInverso,
+       getInverso = getInverso)
 }
 
+## cacheSolve : 
+## This function receives parameter of matrix, process solve function of R and returns the inverse of input matrix cached .
+## solve() is executed only in case of inverse still does not exist.
+## this is verified checking if there is its correspondent inverse in cache for the  matrix from parameter
+## in case its inverse already exists), then this function  cacheSolve should process the solve() function, set the cache  and return the inverse that cache
 
-## Write a short comment describing this function
+
+cacheSolve <- function(mtx = matrix(), ...) {
+  ## retrieve matrix inverse cached
+  invmtx <- matrix()
+  invmtx <- mtx$getInverso()
+  
+  ## in case inverse still does not exist, mtx is expected to be NULL
+  ## in case it is null, this means that inverse already exists cached - thus in this case just need to return the invmtx
+  if(!is.null(invmtx)) {
+    message("inverse matrix already exists ")
+    return(invmtx)
+  }
+  
+  ## if executino of function reached this point
+  ## inverse does not exist and still needs to be created and cached
+  ## first step is to retrieve the original matrix from cache
+  orimtx <- mtx$get()
+  
+  ## the syntax solve(orimtx) is executed is as below (multiply matrix )
+  invmtx <- solve(orimtx) %*% orimtx
+  
+  ## invmtx <- solve(orimtx) %*% orimtx this makes return the identity matrix 
+  
+  ## caching the invmtx calculated 
+  mtx$setInverso(invmtx)
+  
+  ## return the inverse matrix (invmtx)
+  invmtx
+}
+
+## steps for testing :
+## 1) creating (instancing) object of function makeCacheMatrix()
+## >testing <- makeCacheMatrix()
+##
+## 2) using function set of instance testing to set matrix : 
+## >testing$set(matrix(1:4,2,2))
 ## 
-## cacheSolve is function to  cache a matrix
-##   x is a matrix()
-##   ... dotdotdot
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
-  ## Return a matrix that is the inverse of 'x'
-  m <- x$getInverse()
-  
-  ## Just return the inverse if its already set
-  if( !is.null(m) ) {
-    message("getting cached data")
-    return(m)
-  }
-  
-  ## Get the matrix from our object
-  data <- x$get()
-  
-  ## Calculate the inverse using matrix multiplication
-  m <- solve(data) %*% data
-  
-  ## Set the inverse to the object
-  x$setInverse(m)
-  
-  ## Return the matrix
-  m
-  
-}
+## 3) using function set of instance testing to set matrix : 
+## >cacheSolve(testing)
+## 
+## it returns output as below:
+##
+## [,1] [,2]
+## [1,]    1    0
+## [2,]    0    1
+## 
