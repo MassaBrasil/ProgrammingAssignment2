@@ -3,16 +3,12 @@
 ## This function creates a special "matrix" object that can cache its inverse.
 ##
 
-##  makeCacheMatrix is a function that receives a variable of clas Matrix
-=======
-## Put comments here that give an overall description of what your
-## functions do
+##  makeCacheMatrix is a function that receives a variable of class matrix()
 ## test masa , TEST 2ND TIME 
-## Write a short comment describing this function
+
 ## 
 ## makeCacheMatrix is function to create the cache of a matrix
 ## 
->>>>>>> origin/master
 
 makeCacheMatrix <- function(x = matrix() ) {
 
@@ -45,8 +41,8 @@ makeCacheMatrix <- function(x = matrix() ) {
   ## for listing the methods of function makeCacheMatrix...
   
   list(set = set, get = get,
-       setInverso = setInverso,
-       getInverso = getInverso)
+      setInverso = setInverso,
+      getInverso = getInverso)
 }
 
 ## cacheSolve : 
@@ -57,7 +53,8 @@ makeCacheMatrix <- function(x = matrix() ) {
 
 
 cacheSolve <- function(mtx = matrix(), ...) {
-  ## retrieve matrix inverse cached
+
+  ## retrieves matrix inverse cached
   invmtx <- matrix()
   invmtx <- mtx$getInverso()
   
@@ -76,7 +73,7 @@ cacheSolve <- function(mtx = matrix(), ...) {
   ## the syntax solve(orimtx) is executed is as below (multiply matrix )
   invmtx <- solve(orimtx) %*% orimtx
   
-  ## invmtx <- solve(orimtx) %*% orimtx this makes return the identity matrix 
+  ## invmtx <- solve(orimtx) %*% orimtx this makes return the identity matrix (replaced by above)
   
   ## caching the invmtx calculated 
   mtx$setInverso(invmtx)
